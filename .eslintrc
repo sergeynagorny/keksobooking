@@ -1,0 +1,13 @@
+{
+  "extends": "htmlacademy/es5",
+  "env": {
+    "browser": true,
+  },
+  "rules": {
+    "no-alert": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "no-console": "off",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }]
+  }
+}
