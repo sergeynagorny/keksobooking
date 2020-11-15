@@ -77,7 +77,7 @@
               checkin: getRandomItem(dataChecks),
               checkout: getRandomItem(dataChecks),
               features: getRandomItems(dataFeatures),
-              description: '',
+              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu orci posuere massa sollicitudin condimentum sed vitae turpis',
               photos: dataPhotos
             },
             location: dataLocation
@@ -87,9 +87,6 @@
     }
     return bookingData;
   };
-
-
-  console.log(createBookingData(20));
 
 })();
 
