@@ -700,3 +700,9 @@ textarea:focus {
 .footer-social-item-vk {
   background-position: -10px -10px;
 }
+
+.popup__photos img {
+  width: 60px;
+  height: 60px;
+  margin: 3px;
+}
