@@ -116,9 +116,23 @@
     map.appendChild(mapFilter);
   };
 
-  window.renderOffers = function (data) {
+
+  var renderOffers = function (data) {
     renderOfferPins(data);
     renderOfferCards(data);
+  };
+
+  var removeOffers = function () {
+    var offerCards = Array.from(document.querySelectorAll('.map__card'));
+    var offerPins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+
+    window.utils.removeElements(offerCards);
+    window.utils.removeElements(offerPins);
+  };
+
+  window.offers = {
+    render: renderOffers,
+    remove: removeOffers
   };
 
 })();

@@ -81,8 +81,9 @@
 
   enableDraggble(mainPin, mainPin);
 
-  window.mainPin = {
+  window.pinMain = {
     reset: resetPin
   };
+
 
 })();
