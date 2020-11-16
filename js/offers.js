@@ -9,6 +9,33 @@
   var pinTemplate = tempalte.querySelector('.map__pin');
   var cardTemplate = tempalte.querySelector('.map__card');
 
+  var showOfferCard = function (currentPin) {
+    var cards = document.querySelectorAll('.map__card');
+    cards[currentPin].classList.remove('hidden');
+    document.addEventListener('keydown', onMapEscPress);
+  };
+
+  var closeOfferCards = function () {
+    document.removeEventListener('keydown', onMapEscPress);
+    var cards = Array.from(document.querySelectorAll('.map__card:not(.hidden)'));
+    cards.forEach(function (item) {
+      item.classList.add('hidden');
+    });
+  };
+
+  var onMapEscPress = function (evt) {
+    if (evt.which === 27 && evt.target.tagName.toLowerCase() !== 'input') {
+      closeOfferCards();
+    }
+  };
+
+  var onMapPinClick = function (evt) {
+    closeOfferCards();
+    var pins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+    var currentPin = pins.indexOf(evt.currentTarget);
+    showOfferCard(currentPin);
+  };
+
   var createOfferPin = function (dataItem) {
     var pin = pinTemplate.cloneNode(true);
     var pinImg = pin.querySelector('img');
@@ -16,6 +43,8 @@
     pin.style.top = dataItem.location.y + 'px';
     pinImg.src = dataItem.author.avatar;
     pinImg.alt = dataItem.offer.title;
+
+    pin.addEventListener('click', onMapPinClick);
 
     return pin;
   };
@@ -44,7 +73,7 @@
     var offerAvatar = card.querySelector('.popup__avatar');
     var offerClose = card.querySelector('.popup__close');
 
-    card.classList.remove('hidden');
+    card.classList.add('hidden');
     offerTitle.textContent = dataItem.offer.title;
     offerAddress.textContent = dataItem.offer.address;
     offerPrice.textContent = dataItem.offer.price + ' ₽/ночь';
@@ -69,6 +98,10 @@
       photoImg.src = item;
       photoItem.appendChild(photoImg);
       offerPhotos.appendChild(photoItem);
+    });
+
+    offerClose.addEventListener('click', function () {
+      closeOfferCards();
     });
 
     return card;
