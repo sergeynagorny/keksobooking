@@ -1,114 +1,91 @@
 'use strict';
 
 (function () {
-
-  var CARD_COUNT = 8;
-  var bookingData = window.createBookingData(CARD_COUNT);
-
   var map = document.querySelector('.map');
   var mapFilter = document.querySelector('.map__filters-container');
-  var pinsContainer = document.querySelector('.map__pins');
+  var mapPins = document.querySelector('.map__pins');
 
   var tempalte = document.querySelector('template').content;
+  var pinTemplate = tempalte.querySelector('.map__pin');
+  var cardTemplate = tempalte.querySelector('.map__card');
 
-  var createOfferPins = function (data) {
-    var pins = [];
-    var pinTemplate = tempalte.querySelector('.map__pin');
+  var createOfferPin = function (dataItem) {
+    var pin = pinTemplate.cloneNode(true);
+    var pinImg = pin.querySelector('img');
+    pin.style.left = dataItem.location.x + 'px';
+    pin.style.top = dataItem.location.y + 'px';
+    pinImg.src = dataItem.author.avatar;
+    pinImg.alt = dataItem.offer.title;
 
-    data.forEach(function (dataItem) {
-      var pin = pinTemplate.cloneNode(true);
-      var pinImg = pin.querySelector('img');
-      pin.style.left = dataItem.location.x + 'px';
-      pin.style.top = dataItem.location.y + 'px';
-      pinImg.src = dataItem.author.avatar;
-      pinImg.alt = dataItem.offer.title;
-      pins.push(pin);
-    });
-
-    return pins;
+    return pin;
   };
 
-  var renderOfferPins = function (array) {
+  var renderOfferPins = function (data) {
     var fragment = document.createDocumentFragment();
-
-    array.forEach(function (item) {
-      fragment.appendChild(item);
+    data.forEach(function (dataItem) {
+      fragment.appendChild(createOfferPin(dataItem));
     });
-
-    pinsContainer.appendChild(fragment);
+    mapPins.appendChild(fragment);
   };
 
-
-  var createOfferCards = function (array) {
-    var cards = [];
-    var cardTemplate = tempalte.querySelector('.map__card');
+  var createOfferCard = function (dataItem) {
     var housingType = {flat: 'Квартира', bungalo: 'Бунгало', palace: 'Дворец', house: 'Дом'};
 
-    array.forEach(function (data) {
-      var offerCards = cardTemplate.cloneNode(true);
+    var card = cardTemplate.cloneNode(true);
+    var offerTitle = card.querySelector('.popup__title');
+    var offerAddress = card.querySelector('.popup__text--address');
+    var offerPrice = card.querySelector('.popup__text--price');
+    var offerType = card.querySelector('.popup__type');
+    var offerCapacity = card.querySelector('.popup__text--capacity');
+    var offerTime = card.querySelector('.popup__text--time');
+    var offerDescription = card.querySelector('.popup__description');
+    var offerFeatures = card.querySelector('.popup__features');
+    var offerPhotos = card.querySelector('.popup__photos');
+    var offerAvatar = card.querySelector('.popup__avatar');
+    var offerClose = card.querySelector('.popup__close');
 
-      var offerTitle = offerCards.querySelector('.popup__title');
-      var offerAddress = offerCards.querySelector('.popup__text--address');
-      var offerPrice = offerCards.querySelector('.popup__text--price');
-      var offerType = offerCards.querySelector('.popup__type');
-      var offerCapacity = offerCards.querySelector('.popup__text--capacity');
-      var offerTime = offerCards.querySelector('.popup__text--time');
-      var offerDescription = offerCards.querySelector('.popup__description');
-      var offerFeatures = offerCards.querySelector('.popup__features');
-      var offerPhotos = offerCards.querySelector('.popup__photos');
-      var offerAvatar = offerCards.querySelector('.popup__avatar');
-      var offerClose = offerCards.querySelector('.popup__close');
+    card.classList.remove('hidden');
+    offerTitle.textContent = dataItem.offer.title;
+    offerAddress.textContent = dataItem.offer.address;
+    offerPrice.textContent = dataItem.offer.price + ' ₽/ночь';
+    offerType.textContent = housingType[dataItem.offer.type];
+    offerCapacity.textContent = dataItem.offer.rooms + ' комнаты ' + 'для ' + dataItem.offer.guests + ' гостей';
+    offerTime.textContent = 'Заезд после ' + dataItem.offer.checkin + ', выезд до ' + dataItem.offer.checkout;
+    offerDescription.textContent = dataItem.offer.description;
+    offerAvatar.src = dataItem.author.avatar;
 
-      offerCards.classList.remove('hidden');
-      offerTitle.textContent = data.offer.title;
-      offerAddress.textContent = data.offer.address;
-      offerPrice.textContent = data.offer.price + ' ₽/ночь';
-      offerType.textContent = housingType[data.offer.type];
-      offerCapacity.textContent = data.offer.rooms + ' комнаты ' + 'для ' + data.offer.guests + ' гостей';
-      offerTime.textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
-      offerDescription.textContent = data.offer.description;
-      offerAvatar.src = data.author.avatar;
-
-      offerFeatures.innerHTML = '';
-      data.offer.features.forEach(function (item) {
-        var featuresItem = document.createElement('li');
-        featuresItem.classList.add('feature');
-        featuresItem.classList.add('feature--' + item);
-        offerFeatures.appendChild(featuresItem);
-      });
-
-      data.offer.photos.forEach(function (item) {
-        var photoItem = document.createElement('li');
-        var photoImg = document.createElement('img');
-
-        photoImg.src = item;
-        photoItem.appendChild(photoImg);
-        offerPhotos.appendChild(photoItem);
-      });
-
-      cards.push(offerCards);
+    offerFeatures.innerHTML = '';
+    dataItem.offer.features.forEach(function (item) {
+      var featuresItem = document.createElement('li');
+      featuresItem.classList.add('feature');
+      featuresItem.classList.add('feature--' + item);
+      offerFeatures.appendChild(featuresItem);
     });
 
-    return cards;
+    dataItem.offer.photos.forEach(function (item) {
+      var photoItem = document.createElement('li');
+      var photoImg = document.createElement('img');
+
+      photoImg.src = item;
+      photoItem.appendChild(photoImg);
+      offerPhotos.appendChild(photoItem);
+    });
+
+    return card;
   };
 
-
-  var renderOfferCards = function (array) {
+  var renderOfferCards = function (data) {
     var fragment = document.createDocumentFragment();
-
-    array.forEach(function (item) {
-      fragment.appendChild(item);
+    data.forEach(function (dataItem) {
+      fragment.appendChild(createOfferCard(dataItem));
     });
-
     map.appendChild(fragment);
     map.appendChild(mapFilter);
   };
 
-
-  window.renderOffers = function () {
-    renderOfferPins(createOfferPins(bookingData));
-    renderOfferCards(createOfferCards(bookingData));
+  window.renderOffers = function (data) {
+    renderOfferPins(data);
+    renderOfferCards(data);
   };
-
 
 })();
