@@ -10,11 +10,11 @@
   var bookingData = window.createBookingData(CARD_COUNT);
 
   pinMain.addEventListener('mouseup', function () {
-    map.classList.remove('map--faded');
     activationPage();
   });
 
   var activationPage = function () {
+    map.classList.remove('map--faded');
     window.offers.render(bookingData);
     window.form.enable();
   };
