@@ -75,9 +75,31 @@
     window.utils.setAttribute(noticeFieldset, 'disabled');
   };
 
+  var formSendData = function (callback) {
+    noticeForm.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+
+      window.backend.save(new FormData(noticeForm), function () {
+        noticeForm.reset();
+        window.pinMain.reset();
+        callback();
+      }, window.backend.errorHandler);
+    });
+  };
+
+  var formReset = function (callback) {
+    noticeBtnReset.addEventListener('click', function () {
+      noticeForm.reset();
+      window.pinMain.reset();
+      callback();
+    });
+  };
+
   window.form = {
     enable: formEnable,
     disabled: formDisabled,
+    send: formSendData,
+    reset: formReset,
   };
 
   window.form.disabled();

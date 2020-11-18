@@ -28,18 +28,7 @@
     window.form.disabled();
   };
 
-  noticeForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-
-    noticeForm.reset();
-    window.pinMain.reset();
-    deactivationPage();
-  });
-
-  noticeFormReset.addEventListener('click', function (evt) {
-    noticeForm.reset();
-    window.pinMain.reset();
-    deactivationPage();
-  });
+  window.form.send(deactivationPage);
+  window.form.reset(deactivationPage);
 
 })();
