@@ -7,7 +7,11 @@
   var noticeFormReset = document.querySelector('.form__reset');
   var bookingData = [];
 
+
+  // TODO: Оптимизироовать страницу. Активация, только если она выключена
+
   var onLoadData = function (data) {
+    console.log('загрузка');
     bookingData = data;
     window.offers.render(bookingData);
   };
@@ -17,9 +21,11 @@
   });
 
   var activationPage = function () {
-    window.backend.load(onLoadData, window.backend.errorHandler);
-    map.classList.remove('map--faded');
-    window.form.enable();
+    if (map.classList.contains('map--faded')) {
+      window.backend.load(onLoadData, window.backend.errorHandler);
+      map.classList.remove('map--faded');
+      window.form.enable();
+    }
   };
 
   var deactivationPage = function () {
