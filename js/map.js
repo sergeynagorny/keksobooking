@@ -5,17 +5,20 @@
   var pinMain = document.querySelector('.map__pin--main');
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormReset = document.querySelector('.form__reset');
+  var bookingData = [];
 
-  var CARD_COUNT = 8;
-  var bookingData = window.createBookingData(CARD_COUNT);
+  var onLoadData = function (data) {
+    bookingData = data;
+    window.offers.render(bookingData);
+  };
 
   pinMain.addEventListener('mouseup', function () {
     activationPage();
   });
 
   var activationPage = function () {
+    window.backend.load(onLoadData, window.backend.errorHandler);
     map.classList.remove('map--faded');
-    window.offers.render(bookingData);
     window.form.enable();
   };
 
