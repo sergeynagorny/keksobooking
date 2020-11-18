@@ -706,3 +706,18 @@ textarea:focus {
   height: 60px;
   margin: 3px;
 }
+
+.error-message {
+  display: block;
+  padding: 10px 15px;
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  background-color: tomato;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+  margin: 0 auto;
+  transform: translateX(-50%);
+}
