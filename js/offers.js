@@ -51,9 +51,10 @@
 
   var renderOfferPins = function (data) {
     var fragment = document.createDocumentFragment();
-    data.forEach(function (dataItem) {
-      fragment.appendChild(createOfferPin(dataItem));
-    });
+    var maxOffers = data.length > 5 ? 5 : data.length;
+    for (var i = 0; i < maxOffers; i++) {
+      fragment.appendChild(createOfferPin(data[i]));
+    }
     mapPins.appendChild(fragment);
   };
 
@@ -109,15 +110,17 @@
 
   var renderOfferCards = function (data) {
     var fragment = document.createDocumentFragment();
-    data.forEach(function (dataItem) {
-      fragment.appendChild(createOfferCard(dataItem));
-    });
+    var maxOffers = data.length > 5 ? 5 : data.length;
+    for (var i = 0; i < maxOffers; i++) {
+      fragment.appendChild(createOfferCard(data[i]));
+    }
     map.appendChild(fragment);
     map.appendChild(mapFilter);
   };
 
 
   var renderOffers = function (data) {
+    removeOffers();
     renderOfferPins(data);
     renderOfferCards(data);
   };
