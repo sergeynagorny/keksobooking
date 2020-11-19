@@ -17,8 +17,7 @@
   window.filter = function (data, callback) {
     var bookingData = data;
 
-    filter.addEventListener('input', function () {
-
+    var onInputChange = window.debounce(function () {
       var filterFeaturesActive = filterFeatures.filter(function (item) {
         return item.checked;
       }).map(function (item) {
@@ -29,7 +28,6 @@
         var featureList = filterFeaturesActive.filter(function (el) {
           return item.offer.features.indexOf(el) !== -1;
         });
-
         return featureList.length === filterFeaturesActive.length;
       };
 
@@ -48,6 +46,7 @@
       callback(bookingDataCopy);
     });
 
+    filter.addEventListener('input', onInputChange);
   };
 
 })();
