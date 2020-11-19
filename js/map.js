@@ -11,9 +11,10 @@
   // TODO: Оптимизироовать страницу. Активация, только если она выключена
 
   var onLoadData = function (data) {
-    console.log('загрузка');
     bookingData = data;
+    window.utils.getShuffleArray(bookingData);
     window.offers.render(bookingData);
+    window.filter(bookingData, window.offers.render);
   };
 
   pinMain.addEventListener('mouseup', function () {
