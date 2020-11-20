@@ -6,12 +6,26 @@
   var noticeFieldset = Array.from(noticeForm.querySelectorAll('fieldset'));
   var noticePrice = noticeForm.querySelector('#price');
   var noticeType = noticeForm.querySelector('#type');
-  var noticeAddress = noticeForm.querySelector('#address');
   var noticeTimeIn = noticeForm.querySelector('#timein');
   var noticeTimeOut = noticeForm.querySelector('#timeout');
   var noticeRooms = noticeForm.querySelector('#room_number');
   var noticeCapacity = noticeForm.querySelector('#capacity');
   var noticeBtnReset = noticeForm.querySelector('.form__reset');
+
+  var picturesPinUpload = document.querySelector('.notice__photo');
+  var picturePinPreview = picturesPinUpload.querySelector('.notice__preview img');
+  var picturePinInput = picturesPinUpload.querySelector('input');
+  var picturePinDropArea = picturesPinUpload.querySelector('.drop-zone');
+  var pinPreviewDefualtImg = picturePinPreview.src;
+
+  var picturesOfferUpload = document.querySelector('.form__photo-container');
+  var picturesOfferContainer = document.querySelector('.notice__form-photo');
+  var picturesOfferInput = picturesOfferUpload.querySelector('input');
+  var picturesOfferDropArea = picturesOfferUpload.querySelector('.drop-zone');
+
+  window.uploadPreview.image(picturePinPreview, picturePinInput, picturePinDropArea);
+  window.uploadPreview.gallery(picturesOfferContainer, picturesOfferInput, picturesOfferDropArea);
+
 
   // Price & Type
   var noticeMinPrice = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
@@ -80,8 +94,8 @@
       evt.preventDefault();
 
       window.backend.save(new FormData(noticeForm), function () {
-        noticeForm.reset();
-        window.pinMain.reset();
+        picturesOfferContainer.innerHTML = '';
+        picturePinPreview.src = pinPreviewDefualtImg;
         callback();
       }, window.backend.errorHandler);
     });
@@ -89,6 +103,8 @@
 
   var formReset = function (callback) {
     noticeBtnReset.addEventListener('click', function () {
+      picturesOfferContainer.innerHTML = '';
+      picturePinPreview.src = pinPreviewDefualtImg;
       noticeForm.reset();
       window.pinMain.reset();
       callback();

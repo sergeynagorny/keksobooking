@@ -721,3 +721,15 @@ textarea:focus {
   margin: 0 auto;
   transform: translateX(-50%);
 }
+
+.notice__form-photo {
+  margin-top: 10px;
+}
+
+.notice__form-photo img {
+  width: 68px;
+  height: 68px;
+  padding: 2px 4px;
+  margin: 0;
+  cursor: move;
+}
